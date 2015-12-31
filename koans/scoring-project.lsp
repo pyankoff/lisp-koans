@@ -47,10 +47,23 @@
 ;
 ; More scoring examples are given in the tests below:
 ;
-; Your goal is to write the score method.
+					; Your goal is to write the score method.
+
+(defun has-3 (dice)
+  (let ((result nil))
+    (dolist (x '(1 2 3 4 5 6) result)
+      (when (= (count x dice) 3) (setf result x)))))
 
 (defun score (dice)
-  ; You need to write this method
+  (cond
+    ((has-3 dice)
+     (let ((x (has-3 dice)))
+       (+ (* 100 (if (= x 1) 10 x))
+	  (score (set-difference dice (list x x x))))))
+    ((null dice) 0)
+    ((= (first dice) 1) (+ 100 (score (rest dice))))
+    ((= (first dice) 5) (+ 50 (score (rest dice))))
+    (t (score (rest dice))))
 )
 
 (define-test test-score-of-an-empty-list-is-zero
