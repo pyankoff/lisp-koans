@@ -1,0 +1,300 @@
+; SLIME 2015-06-01
+CL-USER> (typep "hello" 'list)
+NIL
+CL-USER> (type-of ())
+NULL
+CL-USER> (type-of ())
+NULL
+CL-USER> 'null
+NULL
+CL-USER> (typep () 'list)
+T
+CL-USER> (type-of 2)
+(INTEGER 0 4611686018427387903)
+CL-USER> (type-of 1)
+BIT
+CL-USER> (subtypep 'bit t)
+T
+T
+CL-USER> (defvar a 1)
+A
+CL-USER> a
+(6 3 3)
+CL-USER> (setf a 1)
+1
+CL-USER> a
+1
+CL-USER> (decf a)
+0
+CL-USER> a
+0
+CL-USER> 
+CL-USER> (random 6)
+4
+CL-USER> (random 6)
+1
+CL-USER> (random 6)
+4
+CL-USER> (random 6)
+5
+CL-USER> (random 6)
+1
+CL-USER> (random 6)
+2
+CL-USER> (random 6)
+3
+CL-USER> (random 6)
+3
+CL-USER> (random 6)
+5
+CL-USER> (random 6)
+4
+CL-USER> (random 6)
+2
+CL-USER> (random 6)
+0
+CL-USER> (random 6)
+4
+CL-USER> (random '(1 6))
+; Evaluation aborted on #<SIMPLE-TYPE-ERROR expected-type: (OR (INTEGER 1) (FLOAT (0))) datum: (1 6)>.
+CL-USER> a
+0
+CL-USER> (setf a nil)
+NIL
+CL-USER> a
+NIL
+CL-USER> (push 3 a)
+(3)
+CL-USER> (push 3 a)
+(3 3)
+WARNING: Implicitly creating new generic function COMMON-LISP-USER::GET-VALUES.
+WARNING: Implicitly creating new generic function COMMON-LISP-USER::ROLL.
+CL-USER> (make-instance 'dice-set)
+#<DICE-SET {100383E163}>
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(2 3 2)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(3 4 2)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(2 1 3)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(5 4 5)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(3 2 6)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(4 6 2)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(3 5 1)
+CL-USER> (let ((dice (make-instance 'dice-set)))
+	   (roll 3 dice))
+(5 6 1)
+
+; in: DEFMACRO LOG-FORM-WITH-VALUE
+;     `(LET ((LOGFORM NIL) (RETVAL ,FORM))
+;        (PUSH '(:FORM ',FORM :VALUE ,RETVAL) *LOG-WITH-VALUE*)
+;        RETVAL)
+; --> SB-IMPL::|List*| SB-IMPL::|List*| SB-IMPL::|List| 
+; ==>
+;   (SB-IMPL::|List| :FORM (SB-IMPL::|List| 'QUOTE FORM) :VALUE RETVAL)
+; 
+; caught WARNING:
+;   undefined variable: RETVAL
+; 
+; compilation unit finished
+;   Undefined variable:
+;     RETVAL
+;   caught 1 WARNING condition
+CL-USER> (log-form-with-value (* 1 3))
+
+;     `(LET ((LOGFORM NIL) (RETVAL ,FORM))
+;        (PUSH '(:FORM ',FORM :VALUE ',RETVAL) *LOG-WITH-VALUE*)
+;        RETVAL)
+; --> SB-IMPL::|List*| SB-IMPL::|List*| SB-IMPL::|List| SB-IMPL::|List| 
+; ==>
+;   (SB-IMPL::|List| 'QUOTE RETVAL)
+; 
+; caught WARNING:
+;   undefined variable: RETVAL
+; 
+; compilation unit finished
+;   Undefined variable:
+;     RETVAL
+;   caught 1 WARNING condition
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+; Evaluation aborted on #<UNBOUND-VARIABLE RETVAL {10059E2723}>.
+CL-USER> (log-form-with-value (* 1 3))
+; Evaluation aborted on #<UNBOUND-VARIABLE RETVAL {1005B8E2F3}>.
+CL-USER> (log-form-with-value (* 1 3))
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+; Evaluation aborted on #<UNBOUND-VARIABLE RETVAL {1005DDED43}>.
+CL-USER> (log-form-with-value (* 1 3))
+; in: LOG-FORM-WITH-VALUE (* 1 3)
+;     (LET ((LOGFORM NIL) (RETVAL (* 1 3)))
+;       (PUSH '(:FORM '(* 1 3) :VALUE (* 1 3)) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+3
+CL-USER> *log-with-value*
+((:FORM '(* 1 3) :VALUE (* 1 3)))
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> (log-form-with-value (* 1 3))
+; in: LOG-FORM-WITH-VALUE (* 1 3)
+;     (LET ((LOGFORM NIL) (RETVAL (* 1 3)))
+;       (PUSH '(:FORM '(* 1 3) :VALUE RETVAL) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+3
+CL-USER> *log-with-value*
+((:FORM '(* 1 3) :VALUE RETVAL) (:FORM '(* 1 3) :VALUE (* 1 3)))
+
+;     `(LET ((LOGFORM NIL) (RETVAL ,FORM))
+;        (PUSH '(:FORM ',FORM :VALUE ,RETVAL) *LOG-WITH-VALUE*)
+;        RETVAL)
+; --> SB-IMPL::|List*| SB-IMPL::|List*| SB-IMPL::|List| 
+; ==>
+;   (SB-IMPL::|List| :FORM (SB-IMPL::|List| 'QUOTE FORM) :VALUE RETVAL)
+; 
+; caught WARNING:
+;   undefined variable: RETVAL
+; 
+; compilation unit finished
+;   Undefined variable:
+;     RETVAL
+;   caught 1 WARNING condition
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> (log-form-with-value (* 1 3))
+; Evaluation aborted on #<UNBOUND-VARIABLE RETVAL {10061C1573}>.
+CL-USER> (eval (* 1 3))
+3
+
+;     `(LET ((LOGFORM NIL) (RETVAL ,FORM))
+;        (PUSH '(:FORM ',FORM :VALUE (EVAL ,RETVAL)) *LOG-WITH-VALUE*)
+;        RETVAL)
+; --> SB-IMPL::|List*| SB-IMPL::|List*| SB-IMPL::|List| SB-IMPL::|List| 
+; ==>
+;   (SB-IMPL::|List| 'EVAL RETVAL)
+; 
+; caught WARNING:
+;   undefined variable: RETVAL
+; 
+; compilation unit finished
+;   Undefined variable:
+;     RETVAL
+;   caught 1 WARNING condition
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> (log-form-with-value (* 1 3))
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+; Evaluation aborted on #<UNBOUND-VARIABLE RETVAL {100656DC53}>.
+CL-USER> (log-form-with-value (* 1 3))
+; in: LOG-FORM-WITH-VALUE (* 1 3)
+;     (LET ((LOGFORM NIL) (RETVAL (* 1 3)))
+;       (PUSH '(:FORM '(* 1 3) :VALUE (EVAL (* 1 3))) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+3
+CL-USER> *log-with-value*
+((:FORM '(* 1 3) :VALUE (EVAL (* 1 3))) (:FORM '(* 1 3) :VALUE RETVAL)
+ (:FORM '(* 1 3) :VALUE (* 1 3)))
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> (log-form-with-value (* 1 3))
+; in: LOG-FORM-WITH-VALUE (* 1 3)
+;     (LET ((LOGFORM NIL) (RETVAL (* 1 3)))
+;       (PUSH '(:FORM '(* 1 3) :VALUE 3) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+3
+CL-USER> *log-with-value*
+((:FORM '(* 1 3) :VALUE 3) (:FORM '(* 1 3) :VALUE (EVAL (* 1 3)))
+ (:FORM '(* 1 3) :VALUE RETVAL) (:FORM '(* 1 3) :VALUE (* 1 3)))
+CL-USER> *log-with-value*
+NIL
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> *log-with-value*
+NIL
+CL-USER> (log-form-with-value (* 1 3))
+; in: LOG-FORM-WITH-VALUE (* 1 3)
+;     (LET ((LOGFORM NIL) (RETVAL (* 1 3)))
+;       (PUSH '(:FORM '(* 1 3) :VALUE 3) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+3
+CL-USER> *log-with-value*
+((:FORM '(* 1 3) :VALUE 3))
+CL-USER> (length *log-with-value*)
+1
+CL-USER> (length *log-with-value*)
+0
+CL-USER> *log-with-value*
+NIL
+CL-USER> *log-with-value*
+NIL
+WARNING: redefining COMMON-LISP-USER::LOG-FORM-WITH-VALUE in DEFMACRO
+CL-USER> (log-form-with-value (log-form-with-value (- 2013 1978)))
+; in: LOG-FORM-WITH-VALUE (- 2013 1978)
+;     (LET ((LOGFORM NIL) (RETVAL (- 2013 1978)))
+;       (PUSH '(:FORM (- 2013 1978) :VALUE 35) *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+; in: LOG-FORM-WITH-VALUE (LOG-FORM-WITH-VALUE (- 2013 1978))
+;     (LOG-FORM-WITH-VALUE (- 2013 1978))
+; ==>
+;   (LET ((LOGFORM NIL) (RETVAL (- 2013 1978)))
+;     (PUSH '(:FORM (- 2013 1978) :VALUE 35) *LOG-WITH-VALUE*)
+;     RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+
+;     (LET ((LOGFORM NIL) (RETVAL (LOG-FORM-WITH-VALUE (- 2013 1978))))
+;       (PUSH '(:FORM (LOG-FORM-WITH-VALUE (- 2013 1978)) :VALUE 35)
+;             *LOG-WITH-VALUE*)
+;       RETVAL)
+; 
+; caught STYLE-WARNING:
+;   The variable LOGFORM is defined but never used.
+; 
+; compilation unit finished
+;   caught 2 STYLE-WARNING conditions
+35
+CL-USER> *log-with-value*
+((:FORM (LOG-FORM-WITH-VALUE (- 2013 1978)) :VALUE 35)
+ (:FORM (- 2013 1978) :VALUE 35) (:FORM (- 2013 1978) :VALUE 35))
+CL-USER> 

@@ -1,0 +1,19 @@
+; SLIME 2015-06-01
+CL-USER> (typep "hello" 'list)
+NIL
+CL-USER> (type-of ())
+NULL
+CL-USER> (type-of ())
+NULL
+CL-USER> 'null
+NULL
+CL-USER> (typep () 'list)
+T
+CL-USER> (type-of 2)
+(INTEGER 0 4611686018427387903)
+CL-USER> (type-of 1)
+BIT
+CL-USER> (subtypep 'bit t)
+T
+T
+CL-USER> 
